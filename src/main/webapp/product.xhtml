@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets">
+
+<ui:composition template="/WEB-INF/templates/layout.xhtml">
+    <ui:define name="title">Fiche produit</ui:define>
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:viewParam name="id" value="#{productBean.productId}"/>
+            <f:viewAction action="#{productBean.loadProduct}"/>
+        </f:metadata>
+
+        <div class="breadcrumb" style="font-size: 14px; color: #6b7280; margin-bottom: 12px;">
+            <h:link value="Accueil" outcome="index" style="color:#4b5563; text-decoration:none;"/> / <span>Fiche produit</span>
+        </div>
+
+        <ui:fragment rendered="#{productBean.productFound}">
+            <div class="card" style="display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px;">
+                <div class="cover" style="background: linear-gradient(135deg, #e5e7eb, #cbd5e1); border-radius: 12px; height: 260px; display: flex; align-items: center; justify-content: center; color: #4b5563; font-weight: bold;">
+                    Visuel du produit
+                </div>
+                <div>
+                    <span class="tag">#{productBean.currentProduct.productCategory.name}</span>
+                    <h1 style="margin:12px 0 0 0;">#{productBean.currentProduct.name}</h1>
+                    <div class="price" style="font-size: 28px; margin: 12px 0;">#{productBean.currentProduct.price} €</div>
+                    <p style="color:#4b5563;">#{productBean.currentProduct.description}</p>
+
+                    <div class="detail-grid" style="margin-top: 16px;">
+                        <div class="detail-item" style="background: #f3f4f6; padding: 12px; border-radius: 8px;">
+                            <span class="label">Référence</span>
+                            <span class="value">#{productBean.currentProduct.sku}</span>
+                        </div>
+                        <div class="detail-item" style="background: #f3f4f6; padding: 12px; border-radius: 8px;">
+                            <span class="label">Stock</span>
+                            <span class="value #{productBean.currentProduct.stock lt 10 ? 'stock-low' : 'stock-ok'}">#{productBean.currentProduct.stock} unités</span>
+                        </div>
+                        <div class="detail-item" style="background: #f3f4f6; padding: 12px; border-radius: 8px;">
+                            <span class="label">Couleur</span>
+                            <span class="value">#{productBean.currentProduct.color}</span>
+                        </div>
+                    </div>
+
+                    <ui:fragment rendered="#{loginBean.admin}">
+                        <div class="actions">
+                            <h:form>
+                                <h:commandButton value="✏️ Modifier" action="#{productBean.editProduct(productBean.currentProduct.id)}" styleClass="btn primary"/>
+                                <h:commandButton value="🗑️ Supprimer" action="#{productBean.deleteProduct(productBean.currentProduct.id)}" styleClass="btn danger"
+                                                 onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?');"/>
+                            </h:form>
+                        </div>
+                    </ui:fragment>
+                </div>
+            </div>
+        </ui:fragment>
+
+        <ui:fragment rendered="#{not productBean.productFound}">
+            <div class="empty-state">
+                <h2>Produit non trouvé</h2>
+                <p>Ce produit n'existe pas ou a été supprimé.</p>
+                <h:form>
+                    <h:commandButton value="Retour au catalogue" action="index" styleClass="btn primary"/>
+                </h:form>
+            </div>
+        </ui:fragment>
+    </ui:define>
+</ui:composition>
+
+</html>

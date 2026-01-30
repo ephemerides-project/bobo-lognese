@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets">
+
+<ui:composition template="/WEB-INF/templates/layout.xhtml">
+    <ui:define name="title">Gestion des produits</ui:define>
+
+    <ui:define name="content">
+        <div class="toolbar">
+            <h1>Gestion des produits</h1>
+            <h:form>
+                <h:commandButton value="+ Nouveau produit" action="#{productBean.newProduct}" styleClass="btn primary"/>
+            </h:form>
+        </div>
+
+        <ui:fragment rendered="#{empty productBean.products}">
+            <div class="empty-state">
+                <h2>Aucun produit</h2>
+                <p>Commencez par créer votre premier produit.</p>
+                <h:form>
+                    <h:commandButton value="Créer un produit" action="#{productBean.newProduct}" styleClass="btn primary" rendered="#{loginBean.loggedIn}"/>
+                </h:form>
+            </div>
+        </ui:fragment>
+
+        <ui:fragment rendered="#{not empty productBean.products}">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Catégorie</th>
+                        <th>Prix</th>
+                        <th>Stock</th>
+                        <th>SKU</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ui:repeat value="#{productBean.products}" var="product">
+                        <tr>
+                            <td>#{product.id}</td>
+                            <td><strong>#{product.name}</strong></td>
+                            <td><span class="tag">#{product.productCategory.name}</span></td>
+                            <td>#{product.price} €</td>
+                            <td>
+                                <span class="#{product.stock lt 10 ? 'stock-low' : 'stock-ok'}">
+                                    #{product.stock}
+                                </span>
+                            </td>
+                            <td>#{product.sku}</td>
+                            <td>
+                                <h:form styleClass="actions-cell">
+                                    <h:commandButton value="👁 Voir" action="#{productBean.viewProduct(product.id)}"
+                                                     styleClass="icon-btn view"/>
+                                    <h:commandButton value="✏️ Modifier" action="#{productBean.editProduct(product.id)}"
+                                                     styleClass="icon-btn edit"/>
+                                    <h:commandButton value="🗑️ Supprimer" action="#{productBean.deleteProduct(product.id)}"
+                                                     styleClass="icon-btn delete"
+                                                     onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce produit ?');"/>
+                                </h:form>
+                            </td>
+                        </tr>
+                    </ui:repeat>
+                </tbody>
+            </table>
+        </ui:fragment>
+    </ui:define>
+</ui:composition>
+
+</html>

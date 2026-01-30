@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets">
+
+<ui:composition template="/WEB-INF/templates/layout.xhtml">
+    <ui:define name="title">Inscription</ui:define>
+
+    <ui:define name="headerActions">
+        <h:link value="Catalogue" outcome="index" styleClass="btn"/>
+        <h:link value="Se connecter" outcome="login" styleClass="btn"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <h1>Inscription</h1>
+                    <p>Créez votre compte pour accéder à BOBO-LOGNÈSE</p>
+                </div>
+
+                <h:form styleClass="login-form">
+                    <h:messages globalOnly="true" styleClass="messages error" />
+
+                    <div class="form-group">
+                        <label for="username">Nom d'utilisateur</label>
+                        <h:inputText id="username"
+                                     value="#{loginBean.username}"
+                                     styleClass="form-control"
+                                     required="true"
+                                     requiredMessage="Le nom d'utilisateur est requis"
+                                     placeholder="Choisissez un nom d'utilisateur"/>
+                        <h:message for="username" styleClass="field-error"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Mot de passe</label>
+                        <h:inputSecret id="password"
+                                       value="#{loginBean.password}"
+                                       styleClass="form-control"
+                                       required="true"
+                                       requiredMessage="Le mot de passe est requis"
+                                       placeholder="Choisissez un mot de passe"/>
+                        <h:message for="password" styleClass="field-error"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirmPassword">Confirmer le mot de passe</label>
+                        <h:inputSecret id="confirmPassword"
+                                       value="#{loginBean.confirmPassword}"
+                                       styleClass="form-control"
+                                       required="true"
+                                       requiredMessage="La confirmation du mot de passe est requise"
+                                       placeholder="Confirmez votre mot de passe"/>
+                        <h:message for="confirmPassword" styleClass="field-error"/>
+                    </div>
+
+                    <h:commandButton value="S'inscrire"
+                                     action="#{loginBean.register}"
+                                     styleClass="btn primary login-btn"/>
+                </h:form>
+
+                <div class="login-footer">
+                    <p>Déjà un compte ? <h:link value="Se connecter" outcome="login" styleClass="link"/></p>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+
+</html>

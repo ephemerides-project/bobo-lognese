@@ -1,0 +1,17 @@
+services:
+  db:
+    image: mariadb:12.1.2
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: bobo
+      MARIADB_DATABASE: bobo
+      MARIADB_USER: bobo
+      MARIADB_PASSWORD: bobo
+    container_name: "bobo-mariadb"
+
+volumes:
+  db_data:
+    driver: local

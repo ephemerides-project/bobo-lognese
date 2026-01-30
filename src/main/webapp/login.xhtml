@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets">
+
+<ui:composition template="/WEB-INF/templates/layout.xhtml">
+    <ui:define name="title">Connexion</ui:define>
+
+    <ui:define name="headerActions">
+        <h:link value="Catalogue" outcome="index" styleClass="btn"/>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <h1>Connexion</h1>
+                    <p>Connectez-vous pour gérer les produits</p>
+                </div>
+
+                <h:form styleClass="login-form">
+                    <h:messages globalOnly="true" styleClass="messages error" />
+
+                    <div class="form-group">
+                        <label for="username">Nom d'utilisateur</label>
+                        <h:inputText id="username"
+                                     value="#{loginBean.username}"
+                                     styleClass="form-control"
+                                     required="true"
+                                     requiredMessage="Le nom d'utilisateur est requis"
+                                     placeholder="Entrez votre nom d'utilisateur"/>
+                        <h:message for="username" styleClass="field-error"/>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Mot de passe</label>
+                        <h:inputSecret id="password"
+                                       value="#{loginBean.password}"
+                                       styleClass="form-control"
+                                       required="true"
+                                       requiredMessage="Le mot de passe est requis"
+                                       placeholder="Entrez votre mot de passe"/>
+                        <h:message for="password" styleClass="field-error"/>
+                    </div>
+
+                    <h:commandButton value="Se connecter"
+                                     action="#{loginBean.login}"
+                                     styleClass="btn primary login-btn"/>
+                </h:form>
+
+                <div class="login-footer">
+                    <p>Pas encore de compte ? <h:link value="S'inscrire" outcome="register" styleClass="link"/></p>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
+
+</html>

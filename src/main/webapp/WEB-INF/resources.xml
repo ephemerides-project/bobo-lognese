@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tomee>
+    <Resource id="jdbc/bobo" type="DataSource">
+        JdbcDriver org.mariadb.jdbc.Driver
+        JdbcUrl jdbc:mariadb://localhost:3306/bobo
+        UserName bobo
+        Password bobo
+        JtaManaged true
+    </Resource>
+</tomee>

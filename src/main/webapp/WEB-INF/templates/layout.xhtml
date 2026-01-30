@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:f="jakarta.faces.core">
+
+<h:head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title><ui:insert name="title">BOBO-LOGNÈSE</ui:insert></title>
+    <h:outputStylesheet library="css" name="style.css"/>
+</h:head>
+
+<h:body>
+    <header class="header">
+        <h:link value="BOBO-LOGNÈSE" outcome="index"/>
+        <nav class="header-nav">
+            <ui:insert name="headerActions">
+                <h:link value="Catalogue" outcome="index" styleClass="btn"/>
+                <h:link value="Gérer les produits" outcome="product-list" styleClass="btn" rendered="#{loginBean.admin}"/>
+                <h:link value="Se connecter" outcome="login" styleClass="btn primary" rendered="#{not loginBean.loggedIn}"/>
+                <h:link value="S'inscrire" outcome="register" styleClass="btn" rendered="#{not loginBean.loggedIn}"/>
+                <h:form rendered="#{loginBean.loggedIn}" style="display:inline;">
+                    <h:commandButton value="Déconnexion (#{loginBean.loggedUser.username})" action="#{loginBean.logout}" styleClass="btn"/>
+                </h:form>
+            </ui:insert>
+        </nav>
+    </header>
+
+    <main class="main #{mainClass}">
+        <ui:insert name="content">
+            <!-- Contenu de la page -->
+        </ui:insert>
+    </main>
+
+    <footer class="footer">
+        BOBO-LOGNÈSE © 2026
+    </footer>
+</h:body>
+
+</html>

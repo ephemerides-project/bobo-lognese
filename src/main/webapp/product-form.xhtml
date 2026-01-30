@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets"
+      xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<ui:composition template="/WEB-INF/templates/layout.xhtml">
+    <ui:define name="title">#{productBean.editMode ? 'Modifier produit' : 'Nouveau produit'}</ui:define>
+
+    <ui:define name="content">
+        <f:metadata>
+            <f:viewParam name="id" value="#{productBean.productId}"/>
+            <f:viewAction action="#{productBean.loadProduct}"/>
+        </f:metadata>
+
+        <div class="card">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+                <h1 class="section-title" style="margin: 0;">
+                    #{productBean.editMode ? 'Modifier le produit' : 'Créer un produit'}
+                </h1>
+                <ui:fragment rendered="#{productBean.editMode}">
+                    <span class="badge">ID: #{productBean.currentProduct.id}</span>
+                </ui:fragment>
+            </div>
+
+            <h:form>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Nom du produit
+                            <h:inputText value="#{productBean.currentProduct.name}" required="true"
+                                         pt:placeholder="Ex: Chaussure running"/>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Catégorie
+                            <h:inputText value="#{productBean.currentProduct.productCategoryString}"
+                                         pt:placeholder="Ex: Sport"/>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Prix (EUR)
+                            <h:inputText value="#{productBean.currentProduct.price}"
+                                         pt:placeholder="0.00"/>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Stock disponible
+                            <h:inputText value="#{productBean.currentProduct.stock}"
+                                         pt:placeholder="0"/>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Référence (SKU)
+                            <h:inputText value="#{productBean.currentProduct.sku}"
+                                         pt:placeholder="SKU-001"/>
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label>Couleur
+                            <h:inputText value="#{productBean.currentProduct.color}"
+                                         pt:placeholder="Ex: Noir"/>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Description
+                        <h:inputTextarea value="#{productBean.currentProduct.description}"
+                                         pt:placeholder="Détails marketing, matériaux, usage..."/>
+                    </label>
+                </div>
+                <div class="actions">
+                    <h:commandButton value="#{productBean.editMode ? 'Enregistrer les modifications' : 'Créer le produit'}"
+                                     action="#{productBean.saveProduct}" styleClass="btn primary"/>
+                    <h:commandButton value="Annuler" action="#{productBean.cancel}" styleClass="btn" immediate="true"/>
+                </div>
+            </h:form>
+        </div>
+    </ui:define>
+</ui:composition>
+
+</html>

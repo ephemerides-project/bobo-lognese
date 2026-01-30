@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets">
+
+<ui:composition template="/WEB-INF/templates/layout.xhtml">
+    <ui:define name="title">Catalogue produits</ui:define>
+
+    <ui:define name="content">
+        <section class="hero">
+            <div>
+                <h1>Parcourez le catalogue</h1>
+                <p>Liste des produits disponibles.</p>
+            </div>
+            <h:form>
+                <h:commandButton value="+ Ajouter un produit" action="#{productBean.newProduct}"
+                                 styleClass="btn primary" rendered="#{loginBean.loggedIn}"/>
+            </h:form>
+        </section>
+
+        <section>
+            <div class="toolbar">
+                <h2 style="margin:0;">Produits (#{productBean.products.size()})</h2>
+            </div>
+
+            <ui:fragment rendered="#{empty productBean.products}">
+                <div class="empty-state">
+                    <h2>Aucun produit</h2>
+                    <p>Commencez par créer votre premier produit.</p>
+                    <h:form rendered="#{loginBean.admin}">
+                        <h:commandButton value="Créer un produit" action="#{productBean.newProduct}"
+                                         styleClass="btn primary" rendered="#{loginBean.loggedIn}" />
+                    </h:form>
+                </div>
+            </ui:fragment>
+
+            <ui:fragment rendered="#{not empty productBean.products}">
+                <div class="card-grid">
+                    <ui:repeat value="#{productBean.products}" var="product">
+                        <div class="card-item">
+                            <span class="tag">#{product.productCategory.name}</span>
+                            <h3 style="margin: 8px 0;">#{product.name}</h3>
+                            <div class="price">#{product.price} €</div>
+                            <p style="margin:0; color:#4b5563; flex-grow:1;">#{product.description}</p>
+                            <h:form style="margin-top: 12px;">
+                                <h:commandButton value="Voir la fiche" action="#{productBean.viewProduct(product.id)}"
+                                                 styleClass="btn primary" style="width:100%;"/>
+                            </h:form>
+                        </div>
+                    </ui:repeat>
+                </div>
+            </ui:fragment>
+        </section>
+    </ui:define>
+</ui:composition>
+
+</html>
